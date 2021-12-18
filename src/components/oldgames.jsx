@@ -3,10 +3,23 @@ import { useSelector, } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from "react-bootstrap/Button";
+import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
+
 const OldGames = () =>{
     const [games, setGames] = useState([]);
     const { user: currentUser } = useSelector((state) => state.auth);
-    console.log(currentUser.id)
+    const [show, setShow] = useState(false);
+	const [selectedGame, setSelectedGame] = useState({});
+
+    const handleClose = () => {
+        setShow(false);
+    }
+    const handleShow = (game) => {
+        setShow(true)
+        setSelectedGame(game);
+    };
+
     useEffect(() => {
         fetch("http://localhost:4200/game")
         .then((res) =>{
@@ -25,16 +38,19 @@ const OldGames = () =>{
         })
     }, [currentUser])
 
-    console.log(games)
-    const deleteGame = (id)=>{
+    const deleteGame = (e, id)=>{
+        e.preventDefault();
+        console.log(id);
         fetch("http://localhost:4200/game/" + id, {
             method: "DELETE"
         }).then(()=>{
             const updatedGames = games.filter(game=> game._id !== id);
             setGames(updatedGames);
+            setShow(false);
         })
     }
     return (
+        <>
         <>
         {
             games.length === 0 ? (
@@ -59,15 +75,29 @@ const OldGames = () =>{
                     <ListGroup.Item>Luogo: {game.locatiom}</ListGroup.Item>
                     <ListGroup.Item>Giocatori: {game.players.length}</ListGroup.Item>
                 </ListGroup>
-                <Button variant="dark" type="submit" onClick={()=>deleteGame(game._id)}>
+                <Button variant="dark" type="submit" onClick={()=>{handleShow(game)}}>
                     Elimina partita
                 </Button>
                 </Card>
                 )})
             )
-
         }
-        
+        </>
+        <>           
+        <Modal show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter"
+        centered>
+        <Modal.Header closeButton>
+            <Modal.Title>Sei sicuro di voler eliminare questa partita: {selectedGame.name}</Modal.Title>
+        </Modal.Header>
+        <Form className={"p-3"}>
+            <Form.Group className="mb-3">
+                <Button variant="dark" type="submit" onClick={(e)=>deleteGame(e, selectedGame._id)} >
+                    Elimina
+                </Button>
+            </Form.Group>
+        </Form>
+    </Modal>
+        </>
         </>
         
     )

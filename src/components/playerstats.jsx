@@ -30,23 +30,23 @@ const PlayerStats = () => {
         var totalAddon = 0;
         var totalProfit = 0;
         games.forEach(game => {
-            if (game.end === null) {
-                endDate.push("in corso");
 
-            } else {
-                var date = new Date(game.end);
-                var month = date.getMonth();
-                var day = date.getDate();
-                var hours = date.getHours();
-                var minutes = date.getMinutes();
-                var convertedDate = day + "/" + month + " " + hours + ":" + minutes;
-                endDate.push(convertedDate);
-            }
             var players = game.players;
 
             players.forEach(player => {
-                if (player.username === user.username) {
-
+                if (player._id === user.id) {
+                    if (game.end === null) {
+                        endDate.push("in corso");
+        
+                    } else {
+                        var date = new Date(game.end);
+                        var month = date.getMonth();
+                        var day = date.getDate();
+                        var hours = date.getHours();
+                        var minutes = date.getMinutes();
+                        var convertedDate = day + "/" + month + " " + hours + ":" + minutes;
+                        endDate.push(convertedDate);
+                    }
                     player.addons.forEach(addon => {
 
                         totalAddon = totalAddon + addon;
@@ -92,7 +92,7 @@ const PlayerStats = () => {
         filterGames(games, currentUser);
     }, [games, currentUser]);
 
-
+    console.log(playerGame)
     return (
         <>
 

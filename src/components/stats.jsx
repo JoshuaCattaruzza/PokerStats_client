@@ -6,6 +6,7 @@ const Stats = () => {
 
     const { data: games } = useSelector((state) => state.data);
     const [gameList, setGameList] = useState([]);
+    // const { user: currentUser } = useSelector((state) => state.auth);
 
     const options = {
         plugins: {
@@ -39,24 +40,26 @@ const Stats = () => {
         games.forEach(game => {
             if (game.active === true) {
                 var players = game.players;
-                players.forEach(player => {
-                    playerAddon = player.addons;
-                    playerAddon.forEach((addon) => {
-                        totalAddon = totalAddon + addon;
-                    })
 
-                    totalStacks.push(player.finishing_stack - (totalAddon + player.starting_stack));
-                    
-                    labelsPlayers.push(player.username);
-                    if((player.finishing_stack - (totalAddon + player.starting_stack))>0){
-                        filteredGames.background.push("rgba(75, 192, 192, 0.2)");
-                        filteredGames.border.push("rgba(75, 192, 192, 1)");
-                    }else{
-                        filteredGames.background.push("rgba(255, 99, 132, 0.2)");
-                        filteredGames.border.push("rgba(255, 99, 132, 1)");
-                    }
-                    totalAddon = 0;
-                });
+                        players.forEach(player => {
+                            playerAddon = player.addons;
+                            playerAddon.forEach((addon) => {
+                                totalAddon = totalAddon + addon;
+                            })
+        
+                            totalStacks.push(player.finishing_stack - (totalAddon + player.starting_stack));
+                            
+                            labelsPlayers.push(player.username);
+                            if((player.finishing_stack - (totalAddon + player.starting_stack))>0){
+                                filteredGames.background.push("rgba(75, 192, 192, 0.2)");
+                                filteredGames.border.push("rgba(75, 192, 192, 1)");
+                            }else{
+                                filteredGames.background.push("rgba(255, 99, 132, 0.2)");
+                                filteredGames.border.push("rgba(255, 99, 132, 1)");
+                            }
+                            totalAddon = 0;
+                        });
+
                 filteredGames.data.push(totalStacks);
                 filteredGames.labels.push(labelsPlayers);
                 filteredGames.key =game._id;
@@ -76,7 +79,7 @@ const Stats = () => {
         });
         setGameList(returnArr);
     };
-    console.log(gameList)
+
 
     useEffect(()=>{
         filterGames(games);

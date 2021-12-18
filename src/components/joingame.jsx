@@ -8,7 +8,7 @@ import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { useSelector } from 'react-redux';
-import {withRouter} from "react-router-dom";
+import { withRouter } from "react-router-dom";
 // import { Link } from 'react-router-dom';
 //DA SISTEMARE REDIRECT SOLO SE IL PLAYER NON E GIA NELLA PARTITA
 import Alert from 'react-bootstrap/Alert';
@@ -20,6 +20,7 @@ const JoinGame = (props) => {
 	const [selectedGame, setSelectedGame] = useState({});
 	const { user: currentUser } = useSelector((state) => state.auth);
 	const [inGame, setInGame] = useState(false);
+	const [code, setCode] = useState("");
 	const games = props.games;
 	const handleClose = () => setShow(false);
 	const handleShow = (game) => {
@@ -53,17 +54,20 @@ const JoinGame = (props) => {
 			_id: currentUser.id,
 			username: currentUser.username,
 			starting_stack: buyin,
-			in_game: true
+			in_game: true,
+			code: code
 		}
 		fetch('http://localhost:4200/game/join/' + id, {
 			method: 'PATCH',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(data)
 		}).then((response) => {
-			if(response.status === 200){
+			if (response.status === 200) {
 				props.history.push('/home');
 				window.location.reload();
 
+			} else if(response.status === 401){
+				window.alert("Codice errato")
 			}
 		})
 
@@ -103,6 +107,11 @@ const JoinGame = (props) => {
 					<Modal.Title>Ti stai per unire a {selectedGame.name}</Modal.Title>
 				</Modal.Header>
 				<Form className={"p-3"}>
+
+					<Form.Group className="mb-3" controlId="location">
+						<Form.Label>Codice</Form.Label>
+						<Form.Control type="text" placeholder="inserisci codice" value={code} onChange={(e) => setCode(e.target.value)} />
+					</Form.Group>
 					<InputGroup className="mb-2">
 						<FormControl id="inlineFormInputGroup" placeholder="Importo" onChange={(e) => setBuyin(parseInt(e.target.value))} />
 						<InputGroup.Text>€</InputGroup.Text>

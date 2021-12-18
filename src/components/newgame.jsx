@@ -10,19 +10,16 @@ import { Link } from 'react-router-dom';
 import Alert from 'react-bootstrap/Alert';
 
 
-const NewGame = (props) => {
+const NewGame = () => {
     const [name, setName] = useState("");
     const [location, setLocation] = useState("");
     const [blinds, setBlinds] = useState("");
     const [buyin, setBuyin] = useState(0);
+    const [code, setCode] = useState("");
     const [created, setCreated] = useState(false);
     const { user: currentUser } = useSelector((state) => state.auth);
     const createGame = (e) => {
         e.preventDefault();
-        //DA SISTEMARE CASTING DATE BISOGNA SALVARE I DATI E CONVERTIRLI NELLA FRONTEND
-        // var options = { minute: '2-digit', hour: '2-digit'};
-        // // var today = new Date();
-        // const startDate = today.toLocaleDateString("it-IT", options)
         const startDate = new Date();
         const game = {
             player: {
@@ -31,14 +28,14 @@ const NewGame = (props) => {
                 starting_stack: buyin,
                 in_game: true,
                 finishing_stack: null
-            }, name, location, blinds, start: startDate, end: null, active: true
+            }, name, code, location, blinds, start: startDate, end: null, active: true
         };
         console.log(game);
         fetch("http://localhost:4200/game", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(game)
-        })
+        }).then(()=> window.location.reload())
 
     }
     const handleSelect = (e) => {
@@ -71,6 +68,10 @@ const NewGame = (props) => {
                 <InputGroup.Text>€</InputGroup.Text>
             </InputGroup>
 
+            <Form.Group className="mb-3" controlId="location">
+                <Form.Label>Codice di accesso</Form.Label>
+                <Form.Control type="text" placeholder="Inserisci codice" value={code} onChange={(e) => setCode(e.target.value)} />
+            </Form.Group>
             <Button as={Link} to="/home" variant="dark" type="submit" onClick={(e) => { createGame(e); setCreated(true) }} >
                 Crea partita
             </Button>
