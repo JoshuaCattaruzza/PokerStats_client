@@ -16,26 +16,26 @@ const NavBar = () => {
 	};
 	return (
 		<>
-			<Navbar collapseonselect="true" expand="true" bg="dark" variant="dark" fixed="top">
+			<Navbar expand="lg" bg="dark" variant="dark" fixed="top">
 				<Container >
-					<Navbar.Brand collapseonselect="true" as={Link} to="/home">
+					<Navbar.Brand as={Link} to="/home">
 						<Logo />
 					</Navbar.Brand>
 					<Navbar.Toggle aria-controls="responsive-navbar-nav" />
 					<Navbar.Collapse id="responsive-navbar-nav">
-						<Nav collapseonselect="true" className="me-auto">
+						<Nav className="me-auto">
 							{!isLoggedIn ? (
-								<Nav.Link as={Link} to="/login">
+								<Nav.Link collapseOnSelect="true" as={Link} to="/login">
 									Login
 								</Nav.Link>
 							) : (
 								<Nav.Link onClick={handleLogout}>Logout</Nav.Link>
 							)}
 							{!isLoggedIn ? (
-							<Nav.Link as={Link} to="/signup">Registrati</Nav.Link>
+							<Nav.Link collapseOnSelect="true" as={Link} to="/signup">Registrati</Nav.Link>
 							): null}
-							<Nav.Link collapseonselect="true" as={Link} to="/playerstats">Statistiche personali</Nav.Link>
-							<Nav.Link as={Link} to="/stats">Statistiche partite</Nav.Link>
+							<Nav.Link collapseOnSelect="true" as={Link} to="/playerstats">Statistiche personali</Nav.Link>
+							<Nav.Link collapseOnSelect="true" as={Link} to="/stats">Statistiche partite</Nav.Link>
 							<NavDropdown title="Partite" >
 								<NavDropdown.Item as={Link} to="/newgame">
 									Crea Partita

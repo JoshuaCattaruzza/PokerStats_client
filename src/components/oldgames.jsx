@@ -72,7 +72,7 @@ const OldGames = () =>{
                     Fine: {game.end}
                     </ListGroup.Item>
                     <ListGroup.Item>Blinds: {game.blinds}€</ListGroup.Item>
-                    <ListGroup.Item>Luogo: {game.locatiom}</ListGroup.Item>
+                    <ListGroup.Item>Luogo: {game.location}</ListGroup.Item>
                     <ListGroup.Item>Giocatori: {game.players.length}</ListGroup.Item>
                 </ListGroup>
                 <Button variant="dark" type="submit" onClick={()=>{handleShow(game)}}>

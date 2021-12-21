@@ -35,7 +35,7 @@ function App() {
 	return (
 		<Router history={history}>
 			<NavBar></NavBar>
-			<Container className="p-3" fluid style={{marginTop: "100px"}}>
+			<Container className="p-3" fluid="md" style={{marginTop: "100px"}}>
 				<Stack gap={3}>
 				{!isLoggedIn ? (
 					<>

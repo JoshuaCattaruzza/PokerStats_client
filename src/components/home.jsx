@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, } from 'react-redux';
-// import { useDispatch } from 'react-redux';
-// import { getData } from "../actions/data";
 import Card from 'react-bootstrap/Card';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import Spinner from 'react-bootstrap/Spinner';
@@ -13,10 +13,6 @@ import Alert from 'react-bootstrap/Alert';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Settings from '../assets/settings.png';
-
-// import FormControl from 'react-bootstrap/FormControl';
-// import InputGroup from 'react-bootstrap/InputGroup';
-//DA FILTRARE I GIOCATORI CHE SONO NELLA PARTITA E QUELLI CHE HANNO ABBANDONATO, ANCHE NELLA SEZIONE STATISTICHE 
 
 const Home = () => {
 
@@ -30,9 +26,9 @@ const Home = () => {
     const [showAddon, setShowAddon] = useState(false);
     const [closed, setClosed] = useState(false);
     const [addOn, setAddon] = useState(0);
-    // const [totalCash, setTotalCash] = useState(0);
+    const [game, setGame] = useState({});
     const [finishingStack, setFinishingStack] = useState(0);
-    // const dispatch = useDispatch();
+
     const handleClose = () => {
         setShow(false);
     }
@@ -51,59 +47,28 @@ const Home = () => {
     const handleShowLeave = () => {
         setShowLeave(true)
     };
+    
     useEffect(() => {
         if (currentUser) {
             setUser(currentUser);
             setIsLoading(false);
             checkAdmin(games, user);
-            // totalCashInPlay(joinedGames.players);
-            // dispatch(getData());
-
-
+            setGame(filterGames(games, user));
         } else {
             window.location.reload();
         }
 
 
-    }, [currentUser, games, user])
-
-    // const totalCashInPlay = (game) => {
-    //     console.log(game)
-    //     var totalAddon = 0;
-    //     var cashInPlay = 0;
-    //     if (game.length >= 0) {
-    //         game.players.forEach(player => {
-    //             player.addons.forEach(addon => {
-    //                 totalAddon = totalAddon + addon;
-    //             });
-    //             cashInPlay += totalAddon + player.starting_stack;
-    //         });
-    //         setTotalCash(cashInPlay);
-    //     }
-
-    // }
+    }, [currentUser, games, user, game])
 
     const filterGames = (games, user) => {
         var returnObj = {};
         games.forEach(game => {
-            if (game.active === false)
-                return returnObj;
-            // var date = new Date(game.start);
-            // var year = date.getFullYear();
-            // var month = date.getMonth();
-            // var day = date.getDate();
-            // var hours = date.getHours();
-            // var minutes = date.getMinutes();
-            // var convertedDate = "";
-            // convertedDate = day + "/" + month + "/" + year + " " + hours + ":" + minutes;
-            // console.log(convertedDate);
-            // game.start = convertedDate.toString();
+           if(game.active===true){
 
-    
             var id = user.id;
             var players = game.players;
-            
-            
+
             players.forEach(player => {
                 if (player._id === id && player.in_game === true) {
 
@@ -111,12 +76,9 @@ const Home = () => {
 
                 }
 
-            });
-           
+            });}
+
         });
-        
-        // setTotalCash(cashInPlay);
-        // totalCashInPlay(returnObj)
         return returnObj;
 
     }
@@ -131,6 +93,7 @@ const Home = () => {
             }
         });
     }
+
     const closeGame = (e, user_id, id) => {
         e.preventDefault();
         var body = { _id: user_id, finishing_stack: finishingStack }
@@ -167,38 +130,34 @@ const Home = () => {
         }).then(() => { handleCloseLeave(); setIsLoading(false); window.location.reload(); })
 
     }
-    const joinedGames = filterGames(games, user);
-    const activePlayers = joinedGames.players;
+
+    const activePlayers = game.players;
 
 
 
     return (
         <>
-            {isLoading ? (<Spinner animation="grow" />) : joinedGames.active ? (
+        <Row className="justify-content-md-center">
+        <Col md={4}>
+            {isLoading ? (<Spinner animation="grow" />) : game.active ? (
                 <>
-                    <Card className={'m-2'} key={joinedGames._id} >
+                    <Card className={'m-2'} key={game._id} >
 
                         <Card.Header>
                             Benvenuto {currentUser.username}, al momento stai partecipando alla partita
                         </Card.Header>
 
                         <Card.Header>
-                            {joinedGames.name}
+                            {game.name}
                             <svg className="blinking m-2">
                                 <circle cx="10" cy="10" r="10" fill="red" />
                             </svg>
                             {isAdmin ? (<img alt="settings" style={{ float: "right" }} onClick={handleShow} src={Settings} />) : null}
                         </Card.Header>
                         <ListGroup variant="flush">
-                            <ListGroup.Item>Inzio: {joinedGames.start}</ListGroup.Item>
-                            {/* <ListGroup.Item>Fine: {joinedGames.end}</ListGroup.Item> */}
-                            <ListGroup.Item>Blinds: {joinedGames.blinds}€</ListGroup.Item>
-                            <ListGroup.Item>Luogo: {joinedGames.location}</ListGroup.Item>
-                            {/* <ListGroup.Item>
-                                <Badge bg="secondary" pill>
-                                    Soldi in gioco: {totalCash}€
-                                </Badge>
-                            </ListGroup.Item> */}
+                            <ListGroup.Item>Inzio: {game.start}</ListGroup.Item>
+                            <ListGroup.Item>Blinds: {game.blinds}€</ListGroup.Item>
+                            <ListGroup.Item>Luogo: {game.location}</ListGroup.Item>
                             <ListGroup.Item>
                                 Giocatori:  <ListGroup as="ul">{activePlayers !== undefined && activePlayers.map((player) => {
                                     var playerAddon = player.addons;
@@ -228,19 +187,18 @@ const Home = () => {
                             <Button variant="danger" type="submit" onClick={handleShowAddon}>
                                 Add on
                             </Button></>)}
-
-
                     </Card>
-
-
                 </>
             ) : (<>
-                <Card className={'m-2'} key={joinedGames._id}>
+                <Card className={'m-2'} key={game._id}>
                     <Card.Header>
                         Benvenuto {currentUser.username}, al momento non stai partecipando a una partita
                     </Card.Header>
                 </Card>
             </>)}
+            </Col>
+            </Row>
+            
             <Modal show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter"
                 centered>
                 <Modal.Header closeButton>
@@ -252,7 +210,7 @@ const Home = () => {
                             <FormControl id="inlineFormInputGroup" placeholder="inserisci importo finale..." onChange={(e) => setFinishingStack(parseInt(e.target.value))} />
                             <InputGroup.Text>€</InputGroup.Text>
                         </InputGroup>
-                        <Button variant="dark" type="submit" onClick={(e) => { closeGame(e, currentUser.id, joinedGames._id) }} >
+                        <Button variant="dark" type="submit" onClick={(e) => { closeGame(e, currentUser.id, game._id) }} >
                             Chiudi partita
                         </Button>
                         {closed ? (<Alert variant="danger">
@@ -272,7 +230,7 @@ const Home = () => {
                         <InputGroup.Text>€</InputGroup.Text>
                     </InputGroup>
                     <Form.Group className="mb-3" >
-                        <Button variant="dark" type="submit" onClick={(e) => { leaveGame(e, currentUser.id, joinedGames._id) }} >
+                        <Button variant="dark" type="submit" onClick={(e) => { leaveGame(e, currentUser.id, game._id) }} >
                             Esci dalla partita
                         </Button>
                     </Form.Group>
@@ -289,7 +247,7 @@ const Home = () => {
                         <InputGroup.Text>€</InputGroup.Text>
                     </InputGroup>
                     <Form.Group className="mb-3" controlId="joinGame">
-                        <Button variant="dark" type="submit" onClick={(e) => { insertaddOn(e, currentUser.id, joinedGames._id) }} >
+                        <Button variant="dark" type="submit" onClick={(e) => { insertaddOn(e, currentUser.id, game._id) }} >
                             Addon
                         </Button>
                     </Form.Group>
