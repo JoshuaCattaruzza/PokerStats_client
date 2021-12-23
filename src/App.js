@@ -1,4 +1,4 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.css'
 import Container from 'react-bootstrap/Container';
 import Stack from 'react-bootstrap/Stack'
 import { Router, Route, Switch } from 'react-router-dom';
