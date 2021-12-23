@@ -1,5 +1,7 @@
 import authHeader from './auth-header';
-const API_URL = 'http://localhost:8080/api/test/';
+import config from 'config';
+
+const API_URL = `${config.apiUrl}/api/test/`;
 
 const getPublicContent = () => {
 	return fetch(API_URL + 'all');

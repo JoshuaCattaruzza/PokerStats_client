@@ -13,6 +13,7 @@ import Alert from 'react-bootstrap/Alert';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Settings from '../assets/settings.png';
+import config from 'config';
 
 const Home = () => {
 
@@ -98,7 +99,7 @@ const Home = () => {
         e.preventDefault();
         var body = { _id: user_id, finishing_stack: finishingStack }
         setIsLoading(true);
-        fetch("http://localhost:4200/game/close/" + id, {
+        fetch(`${config.apiUrl}/game/close/` + id, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body),
@@ -112,7 +113,7 @@ const Home = () => {
         setIsLoading(true);
         var body = { user_id, addOn };
         console.log(body)
-        fetch("http://localhost:4200/game/addon/" + id, {
+        fetch(`${config.apiUrl}/game/addon/` + id, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
@@ -122,7 +123,7 @@ const Home = () => {
         setIsLoading(true);
         var body = { _id: user_id, finishing_stack: finishingStack }
         e.preventDefault();
-        fetch("http://localhost:4200/game/leave/" + id, {
+        fetch(`${config.apiUrl}/game/leave/` + id, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body),

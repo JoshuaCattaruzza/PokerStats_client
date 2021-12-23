@@ -8,6 +8,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Link } from 'react-router-dom';
 import Alert from 'react-bootstrap/Alert';
+import config from 'config';
 
 
 const NewGame = () => {
@@ -31,7 +32,7 @@ const NewGame = () => {
             }, name, code, location, blinds, start: startDate, end: null, active: true
         };
         console.log(game);
-        fetch("http://localhost:4200/game", {
+        fetch(`${config.apiUrl}/game`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(game)

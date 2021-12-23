@@ -9,6 +9,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { useSelector } from 'react-redux';
 import { withRouter } from "react-router-dom";
+import config from 'config';
 // import { Link } from 'react-router-dom';
 //DA SISTEMARE REDIRECT SOLO SE IL PLAYER NON E GIA NELLA PARTITA
 import Alert from 'react-bootstrap/Alert';
@@ -57,7 +58,7 @@ const JoinGame = (props) => {
 			in_game: true,
 			code: code
 		}
-		fetch('http://localhost:4200/game/join/' + id, {
+		fetch(`${config.apiUrl}/game/join/` + id, {
 			method: 'PATCH',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(data)

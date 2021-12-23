@@ -5,6 +5,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Button from "react-bootstrap/Button";
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import config from 'config';
 
 const OldGames = () =>{
     const [games, setGames] = useState([]);
@@ -21,7 +22,7 @@ const OldGames = () =>{
     };
 
     useEffect(() => {
-        fetch("http://localhost:4200/game")
+        fetch(`${config.apiUrl}/game`)
         .then((res) =>{
             return res.json();
         }).then((data) =>{
