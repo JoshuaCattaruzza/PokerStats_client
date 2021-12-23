@@ -1,6 +1,7 @@
 import axios from 'axios';
+import config from 'config';
 
-const url = 'http://localhost:4200/game';
+const url = `${config.apiUrl}/game`;
 
 const getData = () => { 
 	return axios.get(url);

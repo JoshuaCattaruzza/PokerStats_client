@@ -1,6 +1,6 @@
 import axios from 'axios';
-
-const url = 'http://localhost:4200/auth/';
+import config from 'config';
+const url = `${config.apiUrl}/auth/`;
 
 const signup = (username, password) => {
 	return axios.post(url + 'signup', {
