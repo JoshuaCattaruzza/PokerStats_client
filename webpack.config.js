@@ -50,13 +50,13 @@ module.exports = {
           },
         ],
       },
-   ],
+   ]
+ },
    externals: {
     // global app config object
     config: JSON.stringify({
         apiUrl: '/api'
     })
-}
- },
+},
  plugins: [new HtmlWebpackPlugin({ template: './public/index.html' })],
 }
