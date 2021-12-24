@@ -1,13 +1,14 @@
 import React, { useState, useEffect} from 'react';
 import { Bar } from 'react-chartjs-2';
 import { useSelector, } from 'react-redux';
-
+import { withRouter } from "react-router-dom";
 const Stats = () => {
 
     const { data: games } = useSelector((state) => state.data);
     const [gameList, setGameList] = useState([]);
     // const { user: currentUser } = useSelector((state) => state.auth);
 
+    
     const options = {
         plugins: {
         title: {
@@ -110,7 +111,7 @@ const Stats = () => {
         </>
     );
 }
-export default Stats;
+export default withRouter(Stats);
 
 
 

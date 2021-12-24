@@ -5,7 +5,8 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Button from "react-bootstrap/Button";
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import config from 'config';
+// import config from 'config';
+import { withRouter } from "react-router-dom";
 
 const OldGames = () =>{
     const [games, setGames] = useState([]);
@@ -103,4 +104,4 @@ const OldGames = () =>{
         
     )
 }
-export default OldGames; 
+export default withRouter(OldGames); 

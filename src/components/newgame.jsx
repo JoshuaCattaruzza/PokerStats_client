@@ -8,7 +8,8 @@ import FormControl from 'react-bootstrap/FormControl';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { Link } from 'react-router-dom';
 import Alert from 'react-bootstrap/Alert';
-import config from 'config';
+// import config from 'config';
+import { withRouter } from "react-router-dom";
 
 
 const NewGame = () => {
@@ -82,4 +83,4 @@ const NewGame = () => {
         </Form>
     )
 }
-export default NewGame;
+export default withRouter(NewGame);

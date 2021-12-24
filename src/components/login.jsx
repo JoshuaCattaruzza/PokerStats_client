@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { login } from '../actions/auth';
 import { getData } from "../actions/data";
+import { withRouter } from "react-router-dom";
 
 const LogIn = () => {
 	const [username, setUsername] = useState('');
@@ -59,4 +60,4 @@ const LogIn = () => {
 
 	);
 };
-export default LogIn;
+export default withRouter(LogIn);

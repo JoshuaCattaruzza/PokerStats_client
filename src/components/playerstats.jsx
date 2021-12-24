@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Bar } from 'react-chartjs-2';
-
+import { withRouter } from "react-router-dom";
 import { useSelector, } from 'react-redux';
 
 const PlayerStats = () => {
@@ -147,4 +147,4 @@ const PlayerStats = () => {
 
     )
 }
-export default PlayerStats;
+export default withRouter(PlayerStats);

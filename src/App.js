@@ -1,16 +1,16 @@
-import '../node_modules/bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Stack from 'react-bootstrap/Stack'
 import { Router, Route, Switch } from 'react-router-dom';
-import NavBar from './common/navbar';
-import NewGame from './components/newgame';
-import Home from './components/home';
-import JoinGame from './components/joingame';
-import OldGames from './components/oldgames';
-import LogIn from './components/login';
-import PlayerStats from './components/playerstats';
-import Stats from './components/stats';
-import SignUp from './components/signup';
+import NavBar from './common/navbar.jsx';
+import NewGame from './components/newgame.jsx';
+import Home from './components/home.jsx';
+import JoinGame from './components/joingame.jsx';
+import OldGames from './components/oldgames.jsx';
+import LogIn from './components/login.jsx';
+import PlayerStats from './components/playerstats.jsx';
+import Stats from './components/stats.jsx';
+import SignUp from './components/signup.jsx';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { history } from './helpers/history';

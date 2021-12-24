@@ -1,37 +1,42 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+// const webpack = require("webpack");
+// require('dotenv').config({ path: '.env' }); 
 
+const htmlWebpackPlugin = new HtmlWebpackPlugin({
+  template: path.join(__dirname, "dist/index.html"),
+  filename: "index.bundle.js"
+});
 module.exports = {
-    mode: "production",
   // Where files should be sent once they are bundled
- output: {
-   path: path.join(__dirname, '/dist'),
-   filename: 'index.bundle.js'
- },
+  output: {
+    path: path.join(__dirname, '/dist'),
+    filename: 'index.bundle.js'
+  },
   // webpack 5 comes with devServer which loads in development mode
- devServer: {
-   port: 3000,
-   watchContentBase: true
- },
- entry: "./src/index.js",
- resolve: {
-    extensions: ['.js', '.jsx']
-},
+  devServer: {
+    port: 3000,
+    watchContentBase: true
+  },
   // Rules of how webpack will take our files, complie & bundle them for the browser 
- module: {
-   rules: [
-     {
-       test: /\.(js|jsx)$/,
-       exclude: /nodeModules/,
-       use: {
-         loader: 'babel-loader'
-       }
-     },
-     {
-       test: /\.css$/,
-       use: ['style-loader', 'css-loader']
-     }, 
-     {
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /nodeModules/,
+        use: {
+          loader: 'babel-loader'
+        }
+      },
+      {
+        test: /\.(sass|css|scss)$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader',
+        ]
+      },
+      {
         test: /\.(png|jpe?g|gif)$/i,
         use: [
           {
@@ -50,13 +55,9 @@ module.exports = {
           },
         ],
       },
-   ]
- },
-   externals: {
-    // global app config object
-    config: JSON.stringify({
-        apiUrl: '/api'
-    })
-},
- plugins: [new HtmlWebpackPlugin({ template: './public/index.html' })],
+    ]
+  },
+  externals: {config: JSON.stringify({
+    apiUrl: '/api'
+})}
 }

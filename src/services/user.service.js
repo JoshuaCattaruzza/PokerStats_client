@@ -1,5 +1,5 @@
 import authHeader from './auth-header';
-import config from 'config';
+// import config from 'config';
 
 const API_URL = `${config.apiUrl}/api/test/`;
 

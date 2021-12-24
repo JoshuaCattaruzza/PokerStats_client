@@ -14,6 +14,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Settings from '../assets/settings.png';
 import config from 'config';
+import { withRouter } from "react-router-dom";
 
 const Home = () => {
 
@@ -257,4 +258,4 @@ const Home = () => {
         </>
     )
 }
-export default Home;
+export default withRouter(Home);
